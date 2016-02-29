@@ -13,20 +13,20 @@ public class FeatureVector extends ArrayList<Double> {
 	/**
 	 * Label of the feature.
 	 */
-	int label;
+	double label;
 
 	/**
 	 * Constructor
 	 * @param l The label of this feature vector.
 	 */
-	public FeatureVector(int l) {
+	public FeatureVector(double l) {
 		label = l;
 	}
 
 	/**
 	 * @return Returns the label.
 	 */
-	public int getLabel() {
+	public double getLabel() {
 		return label;
 	}
 
