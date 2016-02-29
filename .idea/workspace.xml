@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2434abb-afff-4485-bba4-f55aeca644fe" name="Default" comment="Finishing up MLP predictor">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/NearestNeighbour/Measurement.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/NearestNeighbour/NearestMoviePredictor.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/NearestNeighbour/NearestNeighbour.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/NearestNeighbour/NearestNeighbourInput.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mlp/Input.java" />
+    <list default="true" id="c2434abb-afff-4485-bba4-f55aeca644fe" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/predictions.csv" afterPath="$PROJECT_DIR$/data/predictions.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mlp/FeatureVector.java" afterPath="$PROJECT_DIR$/src/mlp/FeatureVector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mlp/MLPPredictor.java" afterPath="$PROJECT_DIR$/src/mlp/MLPPredictor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mlp/PredictionRunner.java" afterPath="$PROJECT_DIR$/src/mlp/PredictionRunner.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ti2736c/Movie.java" afterPath="$PROJECT_DIR$/src/ti2736c/Movie.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/submission.csv" afterPath="$PROJECT_DIR$/submission.csv" />
     </list>
     <ignored path="Recommendation System.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -617,6 +605,13 @@
       <option name="number" value="Default" />
       <updated>1456153724224</updated>
     </task>
+    <task id="LOCAL-00001" summary="Finishing up MLP predictor">
+      <created>1456707421033</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1456707421033</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
