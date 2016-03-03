@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c2434abb-afff-4485-bba4-f55aeca644fe" name="Default" comment="Finishing up MLP predictor">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/contributors.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/submission.csv" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/CollaborativeFiltering/UserBasedCollab.java" afterPath="$PROJECT_DIR$/src/CollaborativeFiltering/UserBasedCollab.java" />
     </list>
     <ignored path="Recommendation System.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,11 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UserBasedCollab.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UserBasedCollab.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/CollaborativeFiltering/UserBasedCollab.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="55" column="52" selection-start-line="55" selection-start-column="52" selection-end-line="55" selection-end-column="52" />
+            <state vertical-scroll-proportion="0.128125">
+              <caret line="112" column="0" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -38,10 +39,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+      <file leaf-file-name="submission.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/submissions/submission.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="12482" column="22" selection-start-line="12482" selection-start-column="22" selection-end-line="12482" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.50625">
+            <state vertical-scroll-proportion="0.0">
               <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
               <folding />
             </state>
@@ -168,8 +179,8 @@
         <option value="$PROJECT_DIR$/src/CollaborativeFiltering/MemoryAlgorithm.java" />
         <option value="$PROJECT_DIR$/src/CollaborativeFiltering/main.java" />
         <option value="$PROJECT_DIR$/src/mlp/MLPPredictor.java" />
-        <option value="$PROJECT_DIR$/src/CollaborativeFiltering/UserBasedCollab.java" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
+        <option value="$PROJECT_DIR$/src/CollaborativeFiltering/UserBasedCollab.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
@@ -235,7 +246,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Recommendation System" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dm-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CollaborativeFiltering" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -269,15 +298,16 @@
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/CollaborativeFiltering" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Reader" />
+      <recent name="$PROJECT_DIR$/src/NearestNeighbour" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="NearestNeighbour" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/Reader" />
-      <recent name="$PROJECT_DIR$/src/NearestNeighbour" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/submissions" />
+      <recent name="$PROJECT_DIR$/src/CollaborativeFiltering" />
     </key>
   </component>
   <component name="RunManager" selected="Application.main">
@@ -1128,28 +1158,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/submission.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.775">
-          <caret line="12482" column="22" selection-start-line="12482" selection-start-column="22" selection-end-line="12482" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CollaborativeFiltering/UserBasedCollab.java">
+    <entry file="file://$PROJECT_DIR$/submissions/submission.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="55" column="52" selection-start-line="55" selection-start-column="52" selection-end-line="55" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <caret line="12482" column="22" selection-start-line="12482" selection-start-column="22" selection-end-line="12482" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.50625">
+        <state vertical-scroll-proportion="0.0">
           <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CollaborativeFiltering/UserBasedCollab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.128125">
+          <caret line="112" column="0" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

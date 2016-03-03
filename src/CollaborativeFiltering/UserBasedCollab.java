@@ -111,4 +111,27 @@ public class UserBasedCollab {
         return prediction;
     }
 
+    public double predictDualRating(int user, int movie){
+        double pearsonAdder = 0.0;
+        double cosineAdder = 0.0;
+        int normalizer = 0;
+        for (Integer seconduser : userToMovieMap.keySet()) {
+            if (userToMovieMap.get(seconduser).containsKey(movie)) {
+                double pearsoncorr = getCorrelationCoefficientCosine(user, seconduser);
+                double cosinecorr = getCorrelationCoefficentPearson(user,seconduser);
+                double mult = (userToMovieMap.get(seconduser).get(movie) - usersMean.get(seconduser));
+                pearsonAdder += pearsoncorr * mult;
+                cosineAdder += cosinecorr*mult;
+                normalizer++;
+            }
+        }
+        if(normalizer==0){
+            return usersMean.get(user);
+        }
+        double pearsonPrediction = usersMean.get(user) + (pearsonAdder/normalizer);
+        double cosinePrediction = usersMean.get(user) + (cosineAdder/normalizer);
+        double avg = (pearsonPrediction+cosinePrediction)/2;
+        return avg;
+    }
+
 }
