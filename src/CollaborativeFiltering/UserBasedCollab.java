@@ -62,6 +62,7 @@ public class UserBasedCollab {
         double res = upper/Math.sqrt(loweractiveDif*lowersecondDif);
         return res;
     }
+
     public double getCorrelationCoefficientCosine(int activeuser, int useri){
         HashMap<Integer, Double> activeUserMap = userToMovieMap.get(activeuser);
         HashMap<Integer, Double> secondUserMap = userToMovieMap.get(useri);
@@ -73,10 +74,23 @@ public class UserBasedCollab {
         double loweractiveRoot = 0.0;
         double lowersecondRoot = 0.0;
         for (Double num : activeUserMap.values()){
-
+            loweractiveRoot += Math.pow(num,2);
         }
-//        double res = upper/Math.sqrt(loweractiveDif*lowersecondDif);
-        return 0.0;
+        loweractiveRoot = Math.sqrt(loweractiveRoot);
+
+        for (Double num : secondUserMap.values()){
+            lowersecondRoot += Math.pow(num,2);
+        }
+        lowersecondRoot = Math.sqrt(lowersecondRoot);
+        double product = loweractiveRoot*lowersecondRoot;
+        if (product == 0) {
+            return 0.0;
+        }
+        double res = 0.0;
+        for (Integer movie: movieIntersection) {
+            res += (userToMovieMap.get(activeuser).get(movie)*userToMovieMap.get(useri).get(movie))/product;
+        }
+        return res;
     }
 
     public double predictRating(int user, int movie){
