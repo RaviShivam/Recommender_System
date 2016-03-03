@@ -1,4 +1,4 @@
-package ti2736c;
+package Reader;
 import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.BufferedReader;

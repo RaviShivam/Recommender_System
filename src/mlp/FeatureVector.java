@@ -2,6 +2,7 @@ package mlp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.DoubleAccumulator;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -13,20 +14,20 @@ public class FeatureVector extends ArrayList<Double> {
 	/**
 	 * Label of the feature.
 	 */
-	double label;
+	List<Double> label;
 
 	/**
 	 * Constructor
 	 * @param l The label of this feature vector.
 	 */
-	public FeatureVector(double l) {
+	public FeatureVector(List<Double> l) {
 		label = l;
 	}
 
 	/**
 	 * @return Returns the label.
 	 */
-	public double getLabel() {
+	public List<Double> getLabel() {
 		return label;
 	}
 

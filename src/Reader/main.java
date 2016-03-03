@@ -1,4 +1,4 @@
-package ti2736c;
+package Reader;
 
 import java.util.Locale;
 
@@ -13,7 +13,6 @@ public class main {
 		movieList.readFile("data/movies.csv");
 		RatingList ratings = new RatingList();
 		ratings.readFile("data/ratings.csv", userList, movieList);
-
 		// Read list of ratings we need to predict
 		RatingList predRatings = new RatingList();
 		predRatings.readFile("data/predictions.csv", userList, movieList);

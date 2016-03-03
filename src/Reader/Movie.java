@@ -1,4 +1,4 @@
-package ti2736c;
+package Reader;
 
 
 
@@ -20,16 +20,7 @@ public class Movie {
     public int getYear() {
         return year;
     }
-
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "index=" + index +
-                ", year=" + year +
-                ", title='" + title + '\'' +
-                '}';
-    }
-
+    
     public String getTitle() {
         return title;
     }

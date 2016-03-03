@@ -1,13 +1,9 @@
 package NearestNeighbour;
 
-import javafx.util.Pair;
 import mlp.FeatureVector;
-import mlp.Input;
-import ti2736c.*;
+import Reader.*;
 
 import java.util.*;
-import java.util.Map.Entry;
-import java.util.concurrent.atomic.DoubleAccumulator;
 
 
 public class NearestNeighbour {
@@ -52,7 +48,7 @@ public class NearestNeighbour {
         Collections.sort(distances);
         double value = 0;
         for (int i = 0; i < k; i++) {
-            value += distances.get(i).getFeatureVector().getLabel();
+//            value += distances.get(i).getFeatureVector().getLabel();
         }
         return value/ (double) k;
 	}
@@ -64,7 +60,7 @@ public class NearestNeighbour {
         for (int i = 0; i < ratingList.size(); i++) {
             User user = ratingList.get(i).getUser();
             Movie movie = ratingList.get(i).getMovie();
-            FeatureVector vector = new FeatureVector(ratingList.get(i).getRating());
+            FeatureVector vector = new FeatureVector(null);
             vector.add((double) user.getAge());
             vector.add((double) user.getProfession());
             if(user.isMale()){
@@ -84,7 +80,7 @@ public class NearestNeighbour {
         for (int i = 0; i < predictions.size(); i++) {
             User user = predictions.get(i).getUser();
             Movie movie = predictions.get(i).getMovie();
-            FeatureVector vector = new FeatureVector(0);
+            FeatureVector vector = new FeatureVector(null);
             vector.add((double) user.getAge());
             vector.add((double) user.getProfession());
             if(user.isMale()){

@@ -1,4 +1,4 @@
-package ti2736c;
+package Reader;
 
 public class User {
 
