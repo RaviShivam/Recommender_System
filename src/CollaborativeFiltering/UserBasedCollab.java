@@ -84,11 +84,14 @@ public class UserBasedCollab {
         int normalizer = 0;
         for (Integer seconduser : userToMovieMap.keySet()) {
             if (userToMovieMap.get(seconduser).containsKey(movie)) {
-                double corr = getCorrelationCoefficentPearson(user, seconduser);
+                double corr = getCorrelationCoefficientCosine(user, seconduser);
                 double mult = (userToMovieMap.get(seconduser).get(movie) - usersMean.get(seconduser));
                 adder += corr * mult;
                 normalizer++;
             }
+        }
+        if(normalizer==0){
+            return usersMean.get(user);
         }
         double prediction = usersMean.get(user) + (adder/normalizer);
         return prediction;
