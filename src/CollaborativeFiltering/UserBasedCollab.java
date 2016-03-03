@@ -106,9 +106,21 @@ public class UserBasedCollab {
         }
         if(normalizer==0){
             return usersMean.get(user);
-        }
+        }    
         double prediction = usersMean.get(user) + (adder/normalizer);
         return prediction;
+    }
+
+
+    public int round(double d){
+        double dAbs = Math.abs(d);
+        int i = (int) dAbs;
+        double result = dAbs - (double) i;
+        if(result<0.5){
+            return d<0 ? -i : i;
+        }else{
+            return d<0 ? -(i+1) : i+1;
+        }
     }
 
 }
