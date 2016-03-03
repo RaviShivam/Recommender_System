@@ -18,7 +18,6 @@ public class main {
         RatingList predRatings = new RatingList();
         predRatings.readFile("data/predictions.csv", userBasedCollab.userList, userBasedCollab.movieList);
         List<Rating> parallelList = Collections.synchronizedList(predRatings);
-//        System.out.println(cores);
         try {
             fork.submit(
                     () -> parallelList.parallelStream()
