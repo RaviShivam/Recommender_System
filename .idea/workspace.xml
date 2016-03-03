@@ -1,29 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2434abb-afff-4485-bba4-f55aeca644fe" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/features.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/target.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/CollaborativeFiltering/UserBasedCollab.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/CollaborativeFiltering/main.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mlp/Tester.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/NearestNeighbour/NearestNeighbourInput.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/submission.csv" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ti2736c/Movie.java" afterPath="$PROJECT_DIR$/src/Reader/Movie.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ti2736c/MovieList.java" afterPath="$PROJECT_DIR$/src/Reader/MovieList.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ti2736c/Rating.java" afterPath="$PROJECT_DIR$/src/Reader/Rating.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ti2736c/RatingList.java" afterPath="$PROJECT_DIR$/src/Reader/RatingList.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ti2736c/User.java" afterPath="$PROJECT_DIR$/src/Reader/User.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ti2736c/UserList.java" afterPath="$PROJECT_DIR$/src/Reader/UserList.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ti2736c/main.java" afterPath="$PROJECT_DIR$/src/Reader/main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/NearestNeighbour/NearestMoviePredictor.java" afterPath="$PROJECT_DIR$/src/NearestNeighbour/NearestMoviePredictor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/NearestNeighbour/NearestNeighbour.java" afterPath="$PROJECT_DIR$/src/NearestNeighbour/NearestNeighbour.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mlp/FeatureVector.java" afterPath="$PROJECT_DIR$/src/mlp/FeatureVector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mlp/Input.java" afterPath="$PROJECT_DIR$/src/mlp/Input.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mlp/MLPPredictor.java" afterPath="$PROJECT_DIR$/src/mlp/MLPPredictor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mlp/PredictionRunner.java" afterPath="$PROJECT_DIR$/src/mlp/PredictionRunner.java" />
-    </list>
+    <list default="true" id="c2434abb-afff-4485-bba4-f55aeca644fe" name="Default" comment="" />
     <ignored path="Recommendation System.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -747,7 +725,13 @@
       <option name="project" value="LOCAL" />
       <updated>1456707465372</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Finishing up MLP predictor">
+      <created>1457040679580</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1457040679580</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
