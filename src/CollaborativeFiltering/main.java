@@ -3,17 +3,17 @@ package CollaborativeFiltering;
 import Reader.Rating;
 import Reader.RatingList;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 
 public class main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         int cores = 8;
         ForkJoinPool fork =  new ForkJoinPool(cores);
 
         UserBasedCollab userBasedCollab = new UserBasedCollab();
-        userBasedCollab.initData();
         RatingList finalList = new RatingList();
         RatingList predRatings = new RatingList();
         predRatings.readFile("data/predictions.csv", userBasedCollab.userList, userBasedCollab.movieList);
@@ -30,8 +30,7 @@ public class main {
         catch (Exception e){
             e.printStackTrace();
         }
-        finalList.writeResultsFile("submission.csv");
-
+        finalList.writeResultsFile("submissions/submission.csv");
 //        for (int i = 0; i < predRatings.size(); i++) {
 //            System.out.print("\r" + i*100/predRatings.size() + "%");
 //            double rating = userBasedCollab.predictRating(predRatings.get(i).getUser().getIndex(), predRatings.get(i).getMovie().getIndex());
