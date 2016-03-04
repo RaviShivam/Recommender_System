@@ -28,7 +28,7 @@ public class UserBasedCollab {
         userToMovieMap = ratingList.getUserToMovieHashMap();
         getAllUserMean();
 //        KNearestNeighbours = (HashMap<Integer, ArrayList<Integer>>) Computations.getSerializedItem("objects/NearestNeighbours.ser");
-        initKNearestNeighbours(200);
+        initKNearestNeighbours(1000);
         Computations.serializeItem(KNearestNeighbours, "objects/NearestNeighbours.ser");
     }
 
@@ -149,7 +149,7 @@ public class UserBasedCollab {
     public ArrayList<Integer> getKNearestNeighbours(int user, int k){
         Map<Double, Integer> secondUsers = new TreeMap<>();
         UserList allUserClone = (UserList) userList.clone();
-        User curr = allUserClone.remove(user-1);
+        User curr = allUserClone.remove(user);
         for (User second : allUserClone) {
             HashMap<Integer, Double> currUserMap = userToMovieMap.get(curr.getIndex());
             HashMap<Integer, Double> secondUserMap = userToMovieMap.get(second.getIndex());
@@ -183,7 +183,7 @@ public class UserBasedCollab {
     }
 
     public void initKNearestNeighbours(int k){
-        int cores = Runtime.getRuntime().availableProcessors();
+        int cores = 4;
         System.out.println(cores);
         ForkJoinPool fork =  new ForkJoinPool(cores);
         List<User> parallelList = Collections.synchronizedList(userList);
