@@ -17,20 +17,20 @@ public class main {
         RatingList finalList = new RatingList();
         RatingList predRatings = new RatingList();
         predRatings.readFile("data/predictions.csv", userBasedCollab.userList, userBasedCollab.movieList);
-        List<Rating> parallelList = Collections.synchronizedList(predRatings);
-        try {
-            fork.submit(
-                    () -> parallelList.parallelStream()
-                            .forEach(rating -> {rating
-                                    .setRating(userBasedCollab
-                                            .predictRating(rating.getUser().getIndex(), rating.getMovie().getIndex() ));})).get();
-        finalList.addAll(parallelList);
-        }
-
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        finalList.writeResultsFile("submissions/submission.csv");
+//        List<Rating> parallelList = Collections.synchronizedList(predRatings);
+//        try {
+//            fork.submit(
+//                    () -> parallelList.parallelStream()
+//                            .forEach(rating -> {rating
+//                                    .setRating(userBasedCollab
+//                                            .predictRating(rating.getUser().getIndex(), rating.getMovie().getIndex() ));})).get();
+//        finalList.addAll(parallelList);
+//        }
+//
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        finalList.writeResultsFile("submissions/submission.csv");
 //        for (int i = 0; i < predRatings.size(); i++) {
 //            System.out.print("\r" + i*100/predRatings.size() + "%");
 //            double rating = userBasedCollab.predictRating(predRatings.get(i).getUser().getIndex(), predRatings.get(i).getMovie().getIndex());

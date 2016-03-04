@@ -17,7 +17,7 @@ public class UserBasedCollab {
     MovieList movieList = new MovieList();
     RatingList ratingList = new RatingList();
     Map<Integer, Double> usersMean = new HashMap<>();
-//    Map<Integer, ArrayList<Integer>> KNearestNeighbours = new HashMap<>();
+    Map<Integer, ArrayList<Integer>> KNearestNeighbours = new HashMap<>();
     Map<Integer, HashMap<Integer, Double>> userToMovieMap = new HashMap<>();
     Map<Integer, HashMap<Integer, Double>> movieToUserMap = new HashMap<>();
 
@@ -28,8 +28,8 @@ public class UserBasedCollab {
         userToMovieMap = ratingList.getUserToMovieHashMap();
         getAllUserMean();
 //        KNearestNeighbours = (HashMap<Integer, ArrayList<Integer>>) Computations.getSerializedItem("objects/NearestNeighbours.ser");
-//        initKNearestNeighbours(200);
-//        Computations.serializeItem(KNearestNeighbours, "objects/NearestNeighbours.ser");
+        initKNearestNeighbours(200);
+        Computations.serializeItem(KNearestNeighbours, "objects/NearestNeighbours.ser");
     }
 
     public double getMeanVote(int user){
@@ -108,7 +108,7 @@ public class UserBasedCollab {
         }
         double adder = 0.0;
         int normalizer = 0;
-        ArrayList<Integer> secondUsers = getKNearestNeighbours(user, 2000);
+        ArrayList<Integer> secondUsers = KNearestNeighbours.get(user);
         for (Integer seconduser : secondUsers) {
             if (userToMovieMap.get(seconduser).containsKey(movie)) {
                 double corr = getCorrelationCoefficentPearson(user, seconduser);
@@ -125,7 +125,6 @@ public class UserBasedCollab {
     }
 
     public double predictDualRating(int user, int movie){
-        System.out.println("reached");
         double pearsonAdder = 0.0;
         double cosineAdder = 0.0;
         int normalizer = 0;
@@ -147,8 +146,7 @@ public class UserBasedCollab {
         double avg = (pearsonPrediction+cosinePrediction)/2;
         return avg;
     }
-
-    public ArrayList<Integer> getKNearestNeighbours(int user,int k){
+    public ArrayList<Integer> getKNearestNeighbours(int user, int k){
         Map<Double, Integer> secondUsers = new TreeMap<>();
         UserList allUserClone = (UserList) userList.clone();
         User curr = allUserClone.remove(user-1);
@@ -158,7 +156,7 @@ public class UserBasedCollab {
             Set<Integer> movieIntersection = new HashSet<Integer>(currUserMap.keySet());
             movieIntersection.retainAll(secondUserMap.keySet());
             Set<Integer> movieUnion = new HashSet<>(currUserMap.keySet());
-            movieIntersection.addAll(secondUserMap.keySet());
+            movieUnion.addAll(secondUserMap.keySet());
             double correlation = 0.0;
             if (Math.abs(curr.getAge()-second.getAge()) < 3){
                 correlation++;
@@ -184,28 +182,59 @@ public class UserBasedCollab {
         return knearest;
     }
 
-//    public void initKNearestNeighbours(int k){
-//        int cores = Runtime.getRuntime().availableProcessors();
-//        System.out.println(cores);
-//        ForkJoinPool fork =  new ForkJoinPool(cores);
-//        List<User> parallelList = Collections.synchronizedList(userList);
-//        try {
-//            fork.submit(
-//                    () -> parallelList.parallelStream()
-//                            .forEach(user -> {
-//                                KNearestNeighbours.put(user.getIndex(), getKNearestNeighbours(user.getIndex()-1,k));
-//                            })).get();
-//        }
-//
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
+    public void initKNearestNeighbours(int k){
+        int cores = Runtime.getRuntime().availableProcessors();
+        System.out.println(cores);
+        ForkJoinPool fork =  new ForkJoinPool(cores);
+        List<User> parallelList = Collections.synchronizedList(userList);
+        try {
+            fork.submit(
+                    () -> parallelList.parallelStream()
+                            .forEach(user -> {
+                                KNearestNeighbours.put(user.getIndex(), getKNearestNeighbours(user.getIndex()-1,k));
+                            })).get();
+        }
+
+        catch (Exception e){
+            e.printStackTrace();
+        }
 //        for (User user: userList) {
 //            System.out.print("\r" + (double)user.getIndex()*100/(double)userList.size() + "%");
 //            ArrayList<Integer> list = getKNearestNeighbours(user.getIndex(), k);
 //            KNearestNeighbours.put(user.getIndex(), list);
 //        }
-//    }
+    }
+
+    //Getter methods.
+    //*******************
+    //*******************
+    public Map<Integer, HashMap<Integer, Double>> getMovieToUserMap() {
+        return movieToUserMap;
+    }
+
+    public Map<Integer, HashMap<Integer, Double>> getUserToMovieMap() {
+        return userToMovieMap;
+    }
+
+    public Map<Integer, ArrayList<Integer>> getKNearestNeighbours() {
+        return KNearestNeighbours;
+    }
+
+    public Map<Integer, Double> getUsersMean() {
+        return usersMean;
+    }
+
+    public RatingList getRatingList() {
+        return ratingList;
+    }
+
+    public MovieList getMovieList() {
+        return movieList;
+    }
+
+    public UserList getUserList() {
+        return userList;
+    }
 
 }
 
