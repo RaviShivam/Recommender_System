@@ -26,14 +26,16 @@ public class Computations {
         return e;
     }
 
-    public static int round(double d) {
-        double dAbs = Math.abs(d);
-        int i = (int) dAbs;
-        double result = dAbs - (double) i;
-        if (result < 0.5) {
-            return d < 0 ? -i : i;
-        } else {
-            return d < 0 ? -(i + 1) : i + 1;
+    public static double round(double d) {
+        double absD = (int) d;
+        double rest = Math.abs(absD-d);
+        if(rest<0.5) {
+            return rest <= 0.1 ? absD : d;
         }
+        return rest >= 0.1 ? (absD+1) : d;
+
+    }
+    public static  void main(String[] args){
+        //Test codes here.
     }
 }
