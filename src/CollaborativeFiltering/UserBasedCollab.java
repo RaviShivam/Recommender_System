@@ -4,6 +4,7 @@ import Reader.MovieList;
 import Reader.RatingList;
 import Reader.User;
 import Reader.UserList;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.util.*;
@@ -27,9 +28,9 @@ public class UserBasedCollab {
         ratingList.readFile("data/ratings.csv", userList, movieList);
         userToMovieMap = ratingList.getUserToMovieHashMap();
         getAllUserMean();
-//        KNearestNeighbours = (HashMap<Integer, ArrayList<Integer>>) Computations.getSerializedItem("objects/NearestNeighbours.ser");
-        initKNearestNeighbours(1000);
-        Computations.serializeItem(KNearestNeighbours, "objects/NearestNeighbours.ser");
+        KNearestNeighbours = (HashMap<Integer, ArrayList<Integer>>) Computations.getSerializedItem("objects/NearestNeighbours.ser");
+//        initKNearestNeighbours(300);
+//        Computations.serializeItem(KNearestNeighbours, "objects/NearestNeighbours.ser");
     }
 
     public double getMeanVote(int user){
@@ -102,10 +103,10 @@ public class UserBasedCollab {
     }
 
     public double predictRating(int user, int movie){
-        if(userToMovieMap.containsKey(user)&& userToMovieMap.get(user).containsKey(movie)){
-            System.out.println("already here");
-            return userToMovieMap.get(user).get(movie);
-        }
+//        if(userToMovieMap.containsKey(user)&& userToMovieMap.get(user).containsKey(movie)){
+//            System.out.println("already here");
+//            return new userToMovieMap.get(user).get(movie);
+//        }
         double adder = 0.0;
         int normalizer = 0;
         ArrayList<Integer> secondUsers = KNearestNeighbours.get(user);
@@ -121,8 +122,12 @@ public class UserBasedCollab {
             return usersMean.get(user);
         }    
         double prediction = usersMean.get(user) + (adder/normalizer);
-        return Computations.round(prediction);
+        return prediction;
     }
+
+    //********************************************************
+    //********************************************************
+    //********************************************************
 
     public double predictDualRating(int user, int movie){
         double pearsonAdder = 0.0;
@@ -183,26 +188,28 @@ public class UserBasedCollab {
     }
 
     public void initKNearestNeighbours(int k){
-        int cores = 4;
-        System.out.println(cores);
-        ForkJoinPool fork =  new ForkJoinPool(cores);
-        List<User> parallelList = Collections.synchronizedList(userList);
-        try {
-            fork.submit(
-                    () -> parallelList.parallelStream()
-                            .forEach(user -> {
-                                KNearestNeighbours.put(user.getIndex(), getKNearestNeighbours(user.getIndex()-1,k));
-                            })).get();
-        }
-
-        catch (Exception e){
-            e.printStackTrace();
-        }
-//        for (User user: userList) {
-//            System.out.print("\r" + (double)user.getIndex()*100/(double)userList.size() + "%");
-//            ArrayList<Integer> list = getKNearestNeighbours(user.getIndex(), k);
-//            KNearestNeighbours.put(user.getIndex(), list);
+//        int cores = 4;
+//        System.out.println(cores);
+//        ForkJoinPool fork =  new ForkJoinPool(cores);
+//        List<User> parallelList = Collections.synchronizedList(userList);
+//        try {
+//            fork.submit(
+//                    () -> parallelList.parallelStream()
+//                            .forEach(user -> {
+//                                KNearestNeighbours.put(user.getIndex(), getKNearestNeighbours(user.getIndex()-1,k));
+//                            })).get();
 //        }
+//
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+        System.out.println(userList.size());
+        for (User user: userList) {
+            System.out.print("\r" + (double)user.getIndex()*100/(double)userList.size() + "%");
+            ArrayList<Integer> list = getKNearestNeighbours(user.getIndex()-1, k);
+            KNearestNeighbours.put(user.getIndex(), list);
+        }
+        System.out.println("NearestNeighbours Size: " + KNearestNeighbours.size());
     }
 
     //Getter methods.
