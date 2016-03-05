@@ -16,19 +16,14 @@ public class ItemBased {
 
     public double predictRating(int user, int movie){
         Map<Integer,HashMap<Integer, Double>> rate = database.getMovieToUserMap();
-        HashMap<Integer, Double> ratings = rate.get(movie);
-        if(rate == null){
-            System.out.println("reached");
-            return 3.0;
+        if(!rate.containsKey(movie)){
+            return database.getUsersMean().get(user);
         }
         double sum = 0;
         for (Double d :
-                ratings.values()) {
+                rate.get(movie).values()) {
             sum += d;
         }
-        if(sum == 0){
-            return 2.0;
-        }
-        return Computations.round(sum/ratings.size());
+        return Computations.round(sum/(rate.get(movie).size()));
     }
 }

@@ -59,7 +59,7 @@ public class UserBased {
             return database.getUsersMean().get(user);
         }
         double prediction = database.getUsersMean().get(user) + (adder / normalizer);
-        return Computations.round(prediction);
+        return prediction;
     }
 
     public Database getDatabase() {

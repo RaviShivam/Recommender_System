@@ -37,9 +37,9 @@ public class Computations {
         double absD = (int) d;
         double rest = Math.abs(absD-d);
         if(rest<0.5) {
-            return rest <= 0.1 ? absD : d;
+            return rest <= 0.2 ? absD : d;
         }
-        return rest >= 0.1 ? (absD+1) : d;
+        return rest >= 0.2 ? (absD+1) : d;
 
     }
     public static  void main(String[] args) throws IOException, ParseException {
