@@ -21,12 +21,12 @@ public class Database {
     Map<Integer, HashMap<Integer, Double>> movieToUserMap = new HashMap<>();
 
     public Database() throws IOException, ClassNotFoundException {
-        userList.readFile("data/users.csv");
+//        userList.readFile("data/users.csv");
         movieList.readFile("data/movies.csv");
-        ratingList.readFile("data/ratings.csv", userList, movieList);
-        userToMovieMap = ratingList.getUserToMovieHashMap();
-        getAllUserMean();
-        KNearestNeighbours = (HashMap<Integer, ArrayList<Integer>>) Computations.getSerializedItem("objects/NearestNeighbours.ser");
+//        ratingList.readFile("data/ratings.csv", userList, movieList);
+//        userToMovieMap = ratingList.getUserToMovieHashMap();
+//        getAllUserMean();
+//        KNearestNeighbours = (HashMap<Integer, ArrayList<Integer>>) Computations.getSerializedItem("objects/NearestNeighbours.ser");
 //        initKNearestNeighbours(300);
 //        Computations.serializeItem(KNearestNeighbours, "objects/NearestNeighbours.ser");
     }

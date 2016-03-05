@@ -1,6 +1,13 @@
 package CollaborativeFiltering;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.ParseException;
+import org.json.simple.parser.JSONParser;
+
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by ravishivam on 4-3-16.
@@ -35,7 +42,19 @@ public class Computations {
         return rest >= 0.1 ? (absD+1) : d;
 
     }
-    public static  void main(String[] args){
-        //Test codes here.
+    public static  void main(String[] args) throws IOException, ParseException {
+        URL url = new URL("http://www.omdbapi.com/?t=Frozen&y=&plot=short&r=json");
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(url.openStream()));
+        StringBuilder builder = new StringBuilder();
+        String inputLine;
+        while ((inputLine = in.readLine()) != null)
+            builder.append(inputLine);
+        in.close();
+        String string = builder.toString();
+        System.out.println(string);
+        JSONParser parser = new JSONParser();
+        JSONObject object = (JSONObject) parser.parse(string);
+        System.out.println((String)object.get("Title"));
+        }//Test codes here
     }
-}
