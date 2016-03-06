@@ -48,11 +48,11 @@ public class ItemBased {
 
     public double getCorrelationCoefficentPearson(int activemovie, int secondmovie) {
         //Retrieve intersection of users.
-        HashMap<Integer, Double> activeMovieMap = database.getMovieToUserMap().get(activemovie);
-        HashMap<Integer, Double> secondMovieMap = database.getMovieToUserMap().get(secondmovie);
-        if(activeMovieMap.isEmpty()||secondMovieMap.isEmpty()){
+        if(!database.getMovieToUserMap().containsKey(activemovie)||!database.getMovieToUserMap().containsKey(secondmovie)){
             return 0.0;
         }
+        HashMap<Integer, Double> activeMovieMap = database.getMovieToUserMap().get(activemovie);
+        HashMap<Integer, Double> secondMovieMap = database.getMovieToUserMap().get(secondmovie);
         Set<Integer> userIntersection = new HashSet<Integer>(activeMovieMap.keySet());
         userIntersection.retainAll(secondMovieMap.keySet());
 
