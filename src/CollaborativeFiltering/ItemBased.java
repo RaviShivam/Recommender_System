@@ -92,38 +92,35 @@ public class ItemBased {
         HashMap<Integer,Double> moviesRated1 = database.getMovieToUserMap().get(active);
         HashMap<Integer,Double> moviesRated2 = database.getMovieToUserMap().get(second);
         ArrayList<User> allusers = database.getUserList();
-
-        for (int i = 0; i < allusers.size(); i++) {
-           if(moviesRated1.containsKey(allusers.get(i).getIndex())) {
-               list1.add(moviesRated1.get(allusers.get(i).getIndex()) - firstMovieMean);
-           }
-           else{
-               list1.add(0.0);
-           }
-           if(moviesRated2.containsKey(allusers.get(i).getIndex())){
-               list2.add(moviesRated2.get(allusers.get(i).getIndex()) - secondMovieMean);
-           }
-           else {
-               list2.add(0.0);
-           }
-
-        }
-        return computeCosine(list1,list2);
-    }
-
-    public double computeCosine(ArrayList<Double> list1, ArrayList<Double> list2){
         double sum = 0.0;
         double asq = 0.0;
         double bsq = 0.0;
-
-        for (int i = 0; i < list1.size(); i++) {
-            asq += Math.pow(list1.get(i),2);
-            bsq += Math.pow(list2.get(i),2);
-            sum += list1.get(i)*list2.get(i);
+        for (int i = 0; i < allusers.size(); i++) {
+            double diff1;
+            double diff2;
+           if(moviesRated1.containsKey(allusers.get(i).getIndex())) {
+               diff1 = moviesRated1.get(allusers.get(i).getIndex()) - firstMovieMean;
+               list1.add(diff1);
+               asq += Math.pow(diff1,2);
+           }
+           else{
+               diff1 = 0.0;
+               list1.add(0.0);
+           }
+           if(moviesRated2.containsKey(allusers.get(i).getIndex())){
+               diff2 = moviesRated2.get(allusers.get(i).getIndex()) - secondMovieMean;
+               list2.add(diff2);
+               bsq += Math.pow(diff2,2);
+           }
+           else {
+               diff2 = 0.0;
+               list2.add(0.0);
+           }
+            sum+= diff1*diff2;
         }
-        sum = sum/Math.sqrt(asq*bsq);
-        return sum;
+        return sum/Math.sqrt(asq*bsq) ;
     }
+
     //================================================================================================
     //================================================================================================
     //================================================================================================
