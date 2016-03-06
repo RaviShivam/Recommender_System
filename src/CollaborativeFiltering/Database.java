@@ -84,16 +84,22 @@ public class Database {
     public void initBaseLineEstimates(){
         for (int i = 0; i < userList.size(); i++) {
             Map<Integer, Double> bucket = new HashMap<>();
-            for (int j = 0; j < movieList.size(); j++) {
-                double bx = usersMean.get(userList.get(i).getIndex()) - meanRating;
-                double bi = movieMean.get(movieList.get(i).getIndex()) - meanRating;
-                double bias = bx + bi + meanRating;
-                bucket.put(movieList.get(j).getIndex(), bias);
-            }
             baselineEstimate.put(userList.get(i).getIndex(), bucket);
         }
     }
 
+    public double getBaseLine(int user, int movie){
+        if(baselineEstimate.get(user).containsKey(movie)){
+            return baselineEstimate.get(user).get(movie);
+        }
+        else {
+            double bx = usersMean.get(user) - meanRating;
+            double bi = movieMean.get(movie) - meanRating;
+            double bias = bx + bi + meanRating;
+            baselineEstimate.get(user).put(movie, bias);
+            return bias;
+        }
+    }
 
                                         //Getter methods.
     //**********************************************************************************************

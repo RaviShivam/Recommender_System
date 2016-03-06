@@ -18,6 +18,9 @@ public class main {
         RatingList predRatings = new RatingList();
         predRatings.readFile("data/predictions.csv", userBased.getDatabase().getUserList(), userBased.getDatabase().getMovieList());
         RatingList finalList = new RatingList();
+
+
+        //==================Threads===================
         List<Rating> parallelList = Collections.synchronizedList(predRatings);
         long start = System.currentTimeMillis()/1000;
         try {
