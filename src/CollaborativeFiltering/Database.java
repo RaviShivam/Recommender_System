@@ -28,9 +28,9 @@ public class Database {
     }
 
     public Database() throws IOException, ClassNotFoundException {
-        userList.readFile("data/exusers.csv");
-        movieList.readFile("data/exmovies.csv");
-        ratingList.readFile("data/exratings.csv", userList, movieList);
+        userList.readFile("data/users.csv");
+        movieList.readFile("data/movies.csv");
+        ratingList.readFile("data/ratings.csv", userList, movieList);
         meanRating = initMeanRating();
         userToMovieMap = ratingList.getUserToMovieHashMap();
         movieToUserMap = ratingList.getMovieToUserHashMap();

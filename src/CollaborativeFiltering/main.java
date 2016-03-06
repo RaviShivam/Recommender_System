@@ -42,7 +42,8 @@ public class main {
         //=======================================================
 
         //=======================Test Code=======================
-//        System.out.println(itemBased.getCorrelationCoefficentPearson(1,4));
+
+//        System.out.println(itemBased.getCorrelationCoefficentPearson(1,6));
 //        System.out.println(itemBased.predictRating(5,1));
 
         //=======================================================
