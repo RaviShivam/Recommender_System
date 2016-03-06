@@ -12,28 +12,45 @@ import java.util.*;
  * Created by ravishivam on 5-3-16.
  */
 public class Database {
+    double meanRating = 0;
     UserList userList = new UserList();
     MovieList movieList = new MovieList();
     RatingList ratingList = new RatingList();
     Map<Integer, Double> usersMean = new HashMap<>();
     Map<Integer, Double> movieMean = new HashMap<>();
+    Map<Integer, Map<Integer,Double>> baselineEstimate = new HashMap<>();
     Map<Integer, ArrayList<Integer>> KNearestNeighbours = new HashMap<>();
     Map<Integer, HashMap<Integer, Double>> userToMovieMap = new HashMap<>();
     Map<Integer, HashMap<Integer, Double>> movieToUserMap = new HashMap<>();
+
+    public Map<Integer, Map<Integer, Double>> getBaselineEstimate() {
+        return baselineEstimate;
+    }
 
     public Database() throws IOException, ClassNotFoundException {
         userList.readFile("data/users.csv");
         movieList.readFile("data/movies.csv");
         ratingList.readFile("data/ratings.csv", userList, movieList);
+        meanRating = initMeanRating();
         userToMovieMap = ratingList.getUserToMovieHashMap();
         movieToUserMap = ratingList.getMovieToUserHashMap();
         initAllUsersMeanVote();
         initAllMovieMeanVote();
+        initBaseLineEstimates();
+
+
 //        KNearestNeighbours = (HashMap<Integer, ArrayList<Integer>>) Computations.getSerializedItem("objects/NearestNeighbours.ser");
 //        initKNearestNeighbours(300);
 //        Computations.serializeItem(KNearestNeighbours, "objects/NearestNeighbours.ser");
     }
 
+    public double initMeanRating(){
+        double sum = 0.0;
+        for (int i = 0; i < ratingList.size(); i++) {
+            sum += ratingList.get(i).getRating();
+        }
+        return sum/ratingList.size();
+    }
 
     public double getUserMeanVote(int user){
         //get sum of all ratings of user i.
@@ -64,10 +81,27 @@ public class Database {
         }
     }
 
+    public void initBaseLineEstimates(){
+        for (int i = 0; i < userList.size(); i++) {
+            Map<Integer, Double> bucket = new HashMap<>();
+            for (int j = 0; j < movieList.size(); j++) {
+                double bx = usersMean.get(userList.get(i).getIndex()) - meanRating;
+                double bi = movieMean.get(movieList.get(i).getIndex()) - meanRating;
+                double bias = bx + bi + meanRating;
+                bucket.put(movieList.get(j).getIndex(), bias);
+            }
+            baselineEstimate.put(userList.get(i).getIndex(), bucket);
+        }
+    }
 
-    //Getter methods.
-    //*******************
-    //*******************
+
+                                        //Getter methods.
+    //**********************************************************************************************
+    //**********************************************************************************************
+    public double getMeanRating() {
+        return meanRating;
+    }
+
     public Map<Integer, HashMap<Integer, Double>> getMovieToUserMap() {
         return movieToUserMap;
     }

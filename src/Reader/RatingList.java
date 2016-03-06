@@ -8,9 +8,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class RatingList extends ArrayList<Rating> {
+	UserList userlist = new UserList();
+	MovieList movieList = new MovieList();
 
 	// Reads in a file with rating data
 	public void readFile(String filename, UserList userList, MovieList movieList) {
+        this.movieList  = movieList;
+        this.userlist = userList;
+
 		BufferedReader br = null;
 		String line;
 		try {
@@ -65,7 +70,10 @@ public class RatingList extends ArrayList<Rating> {
 	 */
 	public HashMap<Integer, HashMap<Integer, Double>> getMovieToUserHashMap(){
 		HashMap<Integer, HashMap<Integer, Double>> map = new HashMap<Integer, HashMap<Integer, Double>>();
-		HashMap<Integer, Double> bucket;
+        for (int i = 0; i < movieList.size(); i++) {
+            map.put(movieList.get(i).getIndex(), new HashMap<Integer, Double>());
+        }
+        HashMap<Integer, Double> bucket;
 		int userId;
 		int movieId;
 
@@ -73,8 +81,6 @@ public class RatingList extends ArrayList<Rating> {
 			userId = r.getUser().getIndex();
 			movieId = r.getMovie().getIndex();
 			bucket = map.get(movieId);
-			if(bucket == null)
-				bucket = new HashMap<Integer, Double>();
 			bucket.put(userId, r.getRating());
 			map.put(movieId, bucket);
 		}
@@ -89,13 +95,14 @@ public class RatingList extends ArrayList<Rating> {
 	 */
 	public HashMap<Integer, HashMap<Integer, Double>> getUserToMovieHashMap(){
 		HashMap<Integer, HashMap<Integer, Double>> map = new HashMap<Integer, HashMap<Integer, Double>>();
-		HashMap<Integer, Double> bucket;
+        for (int i = 0; i < userlist.size(); i++) {
+            map.put(userlist.get(i).getIndex(), new HashMap<>());
+        }
+        HashMap<Integer, Double> bucket;
 		Integer userId;
 		for(Rating r: this){
 			userId = r.getUser().getIndex();
 			bucket = map.get(userId);
-			if(bucket == null)
-				bucket = new HashMap<Integer, Double>();
 			bucket.put(r.getMovie().getIndex(), r.getRating());
 			map.put(userId, bucket);
 		}

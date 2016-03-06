@@ -31,24 +31,25 @@ public class ItemBased {
 
     public double predictRating(int user, int movie){
         Map<Integer, Double> moviesRatedByUser = database.getUserToMovieMap().get(user);
+        Map<Integer, Double> userBaseLine = database.getBaselineEstimate().get(user);
         double upper = 0.0;
         double lower = 0.0;
         for (Integer secondMovie :
                 moviesRatedByUser.keySet()) {
             double simij = getCorrelationCoefficentPearson(movie, secondMovie);
-            double upperprod = moviesRatedByUser.get(secondMovie)*simij;
+            double upperprod = (moviesRatedByUser.get(secondMovie)-userBaseLine.get(secondMovie)) *simij;
             upper +=upperprod;
             lower += simij;
         }
         if(lower==0.0||upper==0.0){
             return database.getUsersMean().get(user);
         }
-        return upper/lower;
+        return userBaseLine.get(movie)-(upper/lower);
     }
 
     public double getCorrelationCoefficentPearson(int activemovie, int secondmovie) {
         //Retrieve intersection of users.
-        if(!database.getMovieToUserMap().containsKey(activemovie)||!database.getMovieToUserMap().containsKey(secondmovie)){
+        if(database.getMovieToUserMap().get(activemovie).isEmpty()||database.getMovieToUserMap().get(secondmovie).isEmpty()){
             return 0.0;
         }
         HashMap<Integer, Double> activeMovieMap = database.getMovieToUserMap().get(activemovie);
