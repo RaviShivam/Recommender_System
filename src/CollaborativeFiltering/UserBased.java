@@ -11,8 +11,9 @@ import java.util.*;
 public class UserBased {
     Database database;
 
-    public UserBased() throws IOException, ClassNotFoundException {
-        database = new Database();
+    public UserBased(Database database) throws IOException, ClassNotFoundException {
+        this.database = database;
+
     }
 
     public double getCorrelationCoefficentPearson(int activeuser, int useri) {
@@ -42,6 +43,22 @@ public class UserBased {
         return res;
     }
 
+    public double predictRatingSecond(int user, int movie){
+        Map<Integer, Double> usersRatedSameMovie = database.getMovieToUserMap().get(movie);
+        double upper = 0.0;
+        double lower = 0.0;
+        for (Integer secondUser :
+                usersRatedSameMovie.keySet()) {
+            double simij = getCorrelationCoefficentPearson(user, secondUser);
+            double upperprod = (usersRatedSameMovie.get(secondUser)-database.getBaseLine(secondUser,movie)) *simij;
+            upper +=upperprod;
+            lower += simij;
+        }
+        if(lower==0.0||upper==0.0){
+            return database.getUsersMean().get(user);
+        }
+        return database.getBaseLine(user, movie)+(upper/lower);
+    }
 
     public double predictRating(int user, int movie) {
         double adder = 0.0;

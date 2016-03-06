@@ -12,8 +12,8 @@ import java.util.Set;
 public class ItemBased {
     Database database;
 
-    public ItemBased() throws IOException, ClassNotFoundException {
-        database = new Database();
+    public ItemBased(Database database) throws IOException, ClassNotFoundException {
+        this.database = database;
     }
 
     public double naivePredictRating(int user, int movie){
