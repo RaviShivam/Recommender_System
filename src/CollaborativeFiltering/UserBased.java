@@ -20,8 +20,8 @@ public class UserBased {
         HashMap<Integer, Double> secondUserMap = database.getUserToMovieMap().get(useri);
         Set<Integer> movieIntersection = new HashSet<Integer>(activeUserMap.keySet());
         movieIntersection.retainAll(secondUserMap.keySet());
-        double activeUserMean = database.getUsersMean().get(activeuser);//getMeanVote(activeuser);
-        double secondUserMean = database.getUsersMean().get(useri);//getMeanVote(useri);
+        double activeUserMean = database.getUsersMean().get(activeuser);//getUserMeanVote(activeuser);
+        double secondUserMean = database.getUsersMean().get(useri);//getUserMeanVote(useri);
         double upper = 0.0;
         double loweractiveDif = 0.0;
         double lowersecondDif = 0.0;

@@ -16,6 +16,7 @@ public class Database {
     MovieList movieList = new MovieList();
     RatingList ratingList = new RatingList();
     Map<Integer, Double> usersMean = new HashMap<>();
+    Map<Integer, Double> movieMean = new HashMap<>();
     Map<Integer, ArrayList<Integer>> KNearestNeighbours = new HashMap<>();
     Map<Integer, HashMap<Integer, Double>> userToMovieMap = new HashMap<>();
     Map<Integer, HashMap<Integer, Double>> movieToUserMap = new HashMap<>();
@@ -26,23 +27,40 @@ public class Database {
         ratingList.readFile("data/ratings.csv", userList, movieList);
         userToMovieMap = ratingList.getUserToMovieHashMap();
         movieToUserMap = ratingList.getMovieToUserHashMap();
-        getAllUserMean();
+        initAllUsersMeanVote();
+        initAllMovieMeanVote();
 //        KNearestNeighbours = (HashMap<Integer, ArrayList<Integer>>) Computations.getSerializedItem("objects/NearestNeighbours.ser");
 //        initKNearestNeighbours(300);
 //        Computations.serializeItem(KNearestNeighbours, "objects/NearestNeighbours.ser");
     }
 
 
-    public double getMeanVote(int user){
+    public double getUserMeanVote(int user){
         //get sum of all ratings of user i.
         double ratingsum = (new ArrayList<Double>(userToMovieMap.get(user).values())).stream().mapToDouble(Double::doubleValue).sum();
         return ratingsum/ userToMovieMap.get(user).size();
     }
 
-    public void getAllUserMean(){
+    public void initAllUsersMeanVote(){
         for (int i = 0; i < userList.size(); i++) {
             int user = userList.get(i).getIndex();
-            usersMean.put(user, getMeanVote(user));
+            usersMean.put(user, getUserMeanVote(user));
+        }
+    }
+
+    public double getMovieMeanVote(int movie){
+        //get sum of all ratings of movie.
+        if(!movieToUserMap.containsKey(movie)){
+            return 0.0;
+        }
+        double ratingsum = (new ArrayList<Double>(movieToUserMap.get(movie).values())).stream().mapToDouble(Double::doubleValue).sum();
+        return ratingsum/ movieToUserMap.get(movie).size();
+    }
+
+    public void initAllMovieMeanVote(){
+        for (int i = 0; i < movieList.size(); i++) {
+            int movie = movieList.get(i).getIndex();
+            movieMean.put(movie, getMovieMeanVote(movie));
         }
     }
 
@@ -72,6 +90,10 @@ public class Database {
 
     public MovieList getMovieList() {
         return movieList;
+    }
+
+    public Map<Integer, Double> getMovieMean() {
+        return movieMean;
     }
 
     public UserList getUserList() {
