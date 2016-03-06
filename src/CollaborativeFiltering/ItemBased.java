@@ -50,6 +50,9 @@ public class ItemBased {
         //Retrieve intersection of users.
         HashMap<Integer, Double> activeMovieMap = database.getMovieToUserMap().get(activemovie);
         HashMap<Integer, Double> secondMovieMap = database.getMovieToUserMap().get(secondmovie);
+        if(activeMovieMap.isEmpty()||secondMovieMap.isEmpty()){
+            return 0.0;
+        }
         Set<Integer> userIntersection = new HashSet<Integer>(activeMovieMap.keySet());
         userIntersection.retainAll(secondMovieMap.keySet());
 

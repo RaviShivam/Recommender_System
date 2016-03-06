@@ -33,7 +33,7 @@ public class main {
         catch (Exception e){
             e.printStackTrace();
         }
-        System.out.println(System.currentTimeMillis()/1000-start);
+        System.out.println("Algorithm runtime: " + Float.toString(System.currentTimeMillis()/1000-start));
         finalList.writeResultsFile("submissions/submission.csv");
 
 //        for (int i = 0; i < predRatings.size(); i++) {
