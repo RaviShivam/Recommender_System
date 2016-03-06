@@ -13,34 +13,6 @@ public class UserBased {
 
     public UserBased(Database database) throws IOException, ClassNotFoundException {
         this.database = database;
-
-    }
-
-    public double getCorrelationCoefficentPearson(int activeuser, int useri) {
-        HashMap<Integer, Double> activeUserMap = database.getUserToMovieMap().get(activeuser);
-        HashMap<Integer, Double> secondUserMap = database.getUserToMovieMap().get(useri);
-        Set<Integer> movieIntersection = new HashSet<Integer>(activeUserMap.keySet());
-        movieIntersection.retainAll(secondUserMap.keySet());
-        double activeUserMean = database.getUsersMean().get(activeuser);//getUserMeanVote(activeuser);
-        double secondUserMean = database.getUsersMean().get(useri);//getUserMeanVote(useri);
-        double upper = 0.0;
-        double loweractiveDif = 0.0;
-        double lowersecondDif = 0.0;
-        if (movieIntersection.size() == 0) {
-            return 0.0;
-        }
-        for (Integer movie : movieIntersection) {
-            double difactive = database.getUserToMovieMap().get(activeuser).get(movie) - activeUserMean;
-            double difuseri = database.getUserToMovieMap().get(useri).get(movie) - secondUserMean;
-            upper += (difactive) * (difuseri);
-            loweractiveDif += Math.pow(difactive, 2);
-            lowersecondDif += Math.pow(difuseri, 2);
-        }
-        if (loweractiveDif == 0 || lowersecondDif == 0) {
-            return 0;
-        }
-        double res = upper / Math.sqrt(loweractiveDif * lowersecondDif);
-        return res;
     }
 
     public double predictRatingSecond(int user, int movie){
@@ -79,9 +51,53 @@ public class UserBased {
         return prediction;
     }
 
-    public Database getDatabase() {
-        return database;
+    public double getCorrelationCoefficentPearson(int activeuser, int useri) {
+        HashMap<Integer, Double> activeUserMap = database.getUserToMovieMap().get(activeuser);
+        HashMap<Integer, Double> secondUserMap = database.getUserToMovieMap().get(useri);
+        Set<Integer> movieIntersection = new HashSet<Integer>(activeUserMap.keySet());
+        movieIntersection.retainAll(secondUserMap.keySet());
+        double activeUserMean = database.getUsersMean().get(activeuser);//getUserMeanVote(activeuser);
+        double secondUserMean = database.getUsersMean().get(useri);//getUserMeanVote(useri);
+        double upper = 0.0;
+        double loweractiveDif = 0.0;
+        double lowersecondDif = 0.0;
+        if (movieIntersection.size() == 0) {
+            return 0.0;
+        }
+        for (Integer movie : movieIntersection) {
+            double difactive = database.getUserToMovieMap().get(activeuser).get(movie) - activeUserMean;
+            double difuseri = database.getUserToMovieMap().get(useri).get(movie) - secondUserMean;
+            upper += (difactive) * (difuseri);
+            loweractiveDif += Math.pow(difactive, 2);
+            lowersecondDif += Math.pow(difuseri, 2);
+        }
+        if (loweractiveDif == 0 || lowersecondDif == 0) {
+            return 0;
+        }
+//        double res = upper / Math.sqrt(loweractiveDif * lowersecondDif);
+        double res = upper/(Math.sqrt(loweractiveDif) * Math.sqrt(lowersecondDif));
+        return res;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //                  Code Graveyard
     //********************************************************

@@ -28,9 +28,9 @@ public class Database {
     }
 
     public Database() throws IOException, ClassNotFoundException {
-        userList.readFile("data/users.csv");
-        movieList.readFile("data/movies.csv");
-        ratingList.readFile("data/ratings.csv", userList, movieList);
+        userList.readFile("data/exusers.csv");
+        movieList.readFile("data/exmovies.csv");
+        ratingList.readFile("data/exratings.csv", userList, movieList);
         meanRating = initMeanRating();
         userToMovieMap = ratingList.getUserToMovieHashMap();
         movieToUserMap = ratingList.getMovieToUserHashMap();
@@ -54,6 +54,9 @@ public class Database {
 
     public double getUserMeanVote(int user){
         //get sum of all ratings of user i.
+        if(userToMovieMap.get(user).isEmpty()){
+            return  0.0;
+        }
         double ratingsum = (new ArrayList<Double>(userToMovieMap.get(user).values())).stream().mapToDouble(Double::doubleValue).sum();
         return ratingsum/ userToMovieMap.get(user).size();
     }
@@ -67,7 +70,7 @@ public class Database {
 
     public double getMovieMeanVote(int movie){
         //get sum of all ratings of movie.
-        if(!movieToUserMap.containsKey(movie)){
+        if(movieToUserMap.get(movie).isEmpty()){
             return 0.0;
         }
         double ratingsum = (new ArrayList<Double>(movieToUserMap.get(movie).values())).stream().mapToDouble(Double::doubleValue).sum();

@@ -28,7 +28,7 @@ public class main {
             fork.submit(
                     () -> parallelList.parallelStream()
                             .forEach(rating -> {
-                                double prediction = userBased.predictRating(rating.getUser().getIndex(), rating.getMovie().getIndex());
+                                double prediction = itemBased.predictRating(rating.getUser().getIndex(), rating.getMovie().getIndex());
                                 rating.setRating(prediction);
                             })).get();
         finalList.addAll(parallelList);
@@ -42,10 +42,8 @@ public class main {
         //=======================================================
 
         //=======================Test Code=======================
-        System.out.println(database.getMovieToUserMap().get(45));
-        System.out.println(database.getMovieToUserMap().get(56));
-
-        System.out.println(itemBased.getCorrelationCoefficentPearson(45,56));
+//        System.out.println(itemBased.getCorrelationCoefficentPearson(1,4));
+//        System.out.println(itemBased.predictRating(5,1));
 
         //=======================================================
         //====================Single Threads==================
