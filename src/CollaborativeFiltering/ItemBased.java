@@ -71,6 +71,7 @@ public class ItemBased {
         if(prediction<1.0){
             return 1.0;
         }
+        
         return prediction;
     }
 
