@@ -73,8 +73,8 @@ public class Database {
         if(movieToUserMap.get(movie).isEmpty()){
             return 0.0;
         }
-        double ratingsum = (new ArrayList<Double>(movieToUserMap.get(movie).values())).stream().mapToDouble(Double::doubleValue).sum();
-        return ratingsum/ movieToUserMap.get(movie).size();
+        double ra = (new ArrayList<Double>(movieToUserMap.get(movie).values())).stream().mapToDouble(Double::doubleValue).sum()/ movieToUserMap.get(movie).size();
+        return ra;
     }
 
     public void initAllMovieMeanVote(){
@@ -104,6 +104,29 @@ public class Database {
         }
     }
 
+//    public double getBaseLine(int user, int movie){
+//        if(baselineEstimate.get(user).containsKey(movie)){
+//            return baselineEstimate.get(user).get(movie);
+//        }
+//        else {
+//            double sumbx = 0;
+//            double sumbi = 0;
+//            for (Double d :
+//                    movieToUserMap.get(movie).values()) {
+//                sumbi += d-meanRating;
+//            }
+//            double bi = sumbi/(25 + movieToUserMap.get(movie).size());
+//
+//            for (Double d :
+//                    userToMovieMap.get(user).values()) {
+//                sumbx += d-meanRating-bi;
+//            }
+//            double bx = sumbx/(10+userToMovieMap.get(user).size());
+//            double bias = bx + bi + meanRating;
+//            baselineEstimate.get(user).put(movie, bias);
+//            return bias;
+//        }
+//    }
                                         //Getter methods.
     //**********************************************************************************************
     //**********************************************************************************************

@@ -54,7 +54,7 @@ public class RatingList extends ArrayList<Rating> {
 			pw = new PrintWriter(filename);
 			pw.println("Id,Rating");
 			for (int i = 0; i < size(); i++) {
-				pw.println((i + 1) + "," + get(i).getRating());
+				pw.println((i + 1) + "," + String.format("%.4f", get(i).getRating()));
 			}
 			pw.close();
 		} catch (IOException e) {

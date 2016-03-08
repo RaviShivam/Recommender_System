@@ -1,8 +1,6 @@
 package CollaborativeFiltering;
 
-import Reader.Movie;
-import Reader.User;
-import sun.reflect.generics.tree.Tree;
+import Reader.MovieList;
 
 import java.io.IOException;
 import java.util.*;
@@ -11,9 +9,9 @@ import java.util.*;
  * Created by ravishivam on 5-3-16.
  */
 public class ItemBased {
+    int k = 18;//20;//13;//25;//50;
     Database database;
-    Map<Integer,TreeMap<Double,Integer>> nearest = new HashMap<>();
-    int k = 2;
+    Map<Integer, TreeMap<Double, Integer>> similarities = new HashMap<>();
 
     public ItemBased(Database database) throws IOException, ClassNotFoundException {
         this.database = database;
@@ -23,66 +21,92 @@ public class ItemBased {
         Map<Integer, Double> moviesRatedByUser = database.getUserToMovieMap().get(user);
         double upper = 0.0;
         double lower = 0.0;
-        TreeMap<Double, Integer> sims = new TreeMap<>(Collections.reverseOrder());
-        ArrayList<Movie> movies  = database.getMovieList();
-        for (int i = 0; i < movies.size(); i++) {
-            sims.put(getCorrelationCoefficentPearson(movie, movies.get(i).getIndex()), movies.get(i).getIndex());
+        TreeMap<Double, Integer> sims;
+        if(similarities.containsKey(movie)){
+           sims = similarities.get(movie);
         }
-        nearest.put(movie,sims);
+        else {
+            sims = new TreeMap<>(Collections.reverseOrder());
+            MovieList movies = database.getMovieList();
+            for (int i = 0; i < movies.size(); i++) {
+                if(movies.get(i).getIndex()==movie){
+                    continue;
+                }
+                double coeffient = getCorrelationCoefficentPearson(movie, movies.get(i).getIndex());
+
+                if(coeffient>0){
+                    sims.put(coeffient, movies.get(i).getIndex());
+                }
+            }
+            similarities.put(movie, sims);
+        }
         int reached = 0;
         for (Map.Entry<Double, Integer> entry : sims.entrySet()) {
-            if(reached == k){
+            if(reached==k){
                 break;
             }
             if(!moviesRatedByUser.containsKey(entry.getValue())){
                 continue;
             }
-            upper += entry.getKey() * moviesRatedByUser.get(entry.getValue());
+            upper += entry.getKey() * (moviesRatedByUser.get(entry.getValue())-database.getBaseLine(user,entry.getValue()));
             lower += entry.getKey();
             reached++;
         }
-        if(lower==0.0||upper==0.0){
+        if(database.getUserToMovieMap().get(user).size()==0){
+            return database.getMovieMean().get(movie);
+        }
+        if(database.getMovieToUserMap().get(movie).size()==0){
             return database.getUsersMean().get(user);
         }
-        return upper/lower;
+        double prediction;
+        if(lower==0){
+            prediction = database.getUsersMean().get(user);
+        }
+         else {
+            prediction = database.getBaseLine(user,movie) + (upper/lower);
+        }
+        if(prediction>5.0){
+            return 5.0;
+        }
+        if(prediction<1.0){
+            return 1.0;
+        }
+        return prediction;
     }
 
     public double getCorrelationCoefficentPearson(int active, int second){
         double firstMovieMean = database.getMovieMean().get(active);
         double secondMovieMean = database.getMovieMean().get(second);
-        ArrayList<Double> list1 = new ArrayList<>();
-        ArrayList<Double> list2 = new ArrayList<>();
-        HashMap<Integer,Double> moviesRated1 = database.getMovieToUserMap().get(active);
-        HashMap<Integer,Double> moviesRated2 = database.getMovieToUserMap().get(second);
+        HashMap<Integer,Double> moviesRated1 = (HashMap<Integer, Double>) database.getMovieToUserMap().get(active).clone();
+        HashMap<Integer,Double> moviesRated2 = (HashMap<Integer, Double>) database.getMovieToUserMap().get(second).clone();
         Set<Integer> userIntersection = new HashSet<Integer>(moviesRated1.keySet());
         userIntersection.retainAll(moviesRated2.keySet());
+        if(moviesRated1.size()==0||moviesRated2.size()==0){
+            return -1;
+        }
         if(userIntersection.isEmpty()){
             return 0.0;
         }
-        ArrayList<Integer> allusers = new ArrayList<>(userIntersection);
         double sum = 0.0;
         double asq = 0.0;
         double bsq = 0.0;
-        for (Double d :
-                moviesRated1.values()) {
+        for (Double d:moviesRated1.values()) {
             asq += Math.pow(d-firstMovieMean,2);
         }
-        for (Double d :
-                moviesRated2.values()) {
+        for (Double d : moviesRated2.values()) {
             bsq += Math.pow(d-secondMovieMean,2);
         }
-        for (int i = 0; i < allusers.size(); i++) {
+        for (Integer similairuser : userIntersection) {
             double diff1;
             double diff2;
-            diff1 = moviesRated1.get(allusers.get(i)) - firstMovieMean;
-            diff2 = moviesRated2.get(allusers.get(i)) - secondMovieMean;
+            diff1 = moviesRated1.get(similairuser) - firstMovieMean;
+            diff2 = moviesRated2.get(similairuser) - secondMovieMean;
             sum+= diff1*diff2;
         }
         if(sum==0||asq==0||bsq==0){
             return 0;
         }
-
-        return sum/Math.sqrt(asq*bsq) ;
+        return sum/Math.sqrt(asq*bsq);
     }
 
     //================================================================================================
