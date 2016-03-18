@@ -14,17 +14,26 @@ import java.util.concurrent.ForkJoinPool;
  */
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        Database database = new Database();
 //        predictHybridRating();
 //        predictItemBased();
 //        predictUserBased();
+        optimalValue();
 
+    }
+    static void optimalValue() throws IOException, ClassNotFoundException {
+        Database database = new Database();
+        RatingList collabList = new RatingList();
         RatingList userbased = new RatingList();
         RatingList itembased = new RatingList();
-        userbased.readFile("submissions/userBasedPrediction.csv", database.getUserList(),database.getMovieList());
-        itembased.readFile("submissions/itemBasedPrediction.csv", database.getUserList(),database.getMovieList());
-
-
+        userbased.readPredictedFile("submissions/userBasedPredictions.csv", database.getUserList(),database.getMovieList());
+        itembased.readPredictedFile("submissions/itemBasedPredictions.csv", database.getUserList(),database.getMovieList());
+        double c1 = 0.1;
+        double c2 = 0.9;
+        for (int i = 0; i < userbased.size(); i++) {
+            double avg = (c1*userbased.get(i).getRating()) + (c2 * itembased.get(i).getRating());
+            collabList.add(new Rating(userbased.get(i).getUser(), userbased.get(i).getMovie(),avg));
+        }
+        collabList.writeResultsFile("submissions/submission.csv");
     }
 
     static void predictItemBased() throws IOException, ClassNotFoundException {
@@ -56,7 +65,7 @@ public class Main {
         catch (Exception e){
             e.printStackTrace();
         }
-        finalList.writeResultsFile("submissions/itemBasedPrediction.csv");
+        finalList.writeResultsFile("submissions/itemBasedPredictions.csv");
         System.out.println("Item-based predictions completed successfully.");
         //=======================================================
     }

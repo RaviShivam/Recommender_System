@@ -47,11 +47,11 @@ public class Predictor {
                 }
                 double coeffient = getCorrelationCoefficentPearson(row, currentRow);
 
-                if(coeffient>=-0.02){
+                if(coeffient>=0){
                     sims.put(coeffient, currentRow);
                 }
             }
-            similarities.put(row, getSublist(sims));
+            similarities.put(row, sims);
         }
         int reached = 0;
         for (Map.Entry<Double, Integer> entry : sims.entrySet()) {

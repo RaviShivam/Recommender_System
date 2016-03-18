@@ -46,6 +46,41 @@ public class RatingList extends ArrayList<Rating> {
 			}
 		}
 	}
+	public void readPredictedFile(String filename, UserList userList, MovieList movieList) {
+		this.movieList  = movieList;
+		this.userlist = userList;
+
+		BufferedReader br = null;
+		String line;
+		try {
+			br = new BufferedReader(new FileReader(filename));
+			br.readLine();
+			while ((line = br.readLine()) != null) {
+				String[] ratingData = line.split(",");
+				if (ratingData.length == 2) {
+					add(new Rating(
+							null,
+							null,
+							Double.parseDouble(ratingData[1])));
+				} else {
+					add(new Rating(
+							null,
+							null,
+							0.0));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 
 	// Writes a result file
 	public void writeResultsFile(String filename) {
