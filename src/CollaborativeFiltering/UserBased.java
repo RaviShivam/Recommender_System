@@ -1,6 +1,7 @@
 package CollaborativeFiltering;
 
 import Reader.UserList;
+import sun.reflect.generics.tree.Tree;
 
 import java.io.IOException;
 import java.util.*;
@@ -37,7 +38,7 @@ public class UserBased {
                     sims.put(coeffient, users.get(i).getIndex());
                 }
             }
-            similarities.put(user, sims);
+            similarities.put(user, getSublist(sims));
         }
         int reached = 0;
         for (Map.Entry<Double, Integer> entry : sims.entrySet()) {
@@ -104,6 +105,19 @@ public class UserBased {
         return sum/Math.sqrt(asq*bsq);
     }
 
+    public TreeMap<Double, Integer> getSublist(TreeMap<Double, Integer> map){
+        TreeMap<Double, Integer> ret = new TreeMap<>(Collections.reverseOrder());
+        int runs = 1000;
+        int count =0;
+        for (Map.Entry<Double,Integer> entry : map.entrySet()) {
+            ret.put(entry.getKey(),entry.getValue());
+            count++;
+            if(count==runs){
+                break;
+            }
+        }
+        return ret;
+    }
 
 
 

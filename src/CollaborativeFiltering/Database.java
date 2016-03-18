@@ -2,7 +2,6 @@ package CollaborativeFiltering;
 
 import Reader.MovieList;
 import Reader.RatingList;
-import Reader.User;
 import Reader.UserList;
 
 import java.io.IOException;
@@ -18,13 +17,12 @@ public class Database {
     RatingList ratingList = new RatingList();
     Map<Integer, Double> usersMean = new HashMap<>();
     Map<Integer, Double> movieMean = new HashMap<>();
-    Map<Integer, Map<Integer,Double>> baselineEstimate = new HashMap<>();
-    Map<Integer, ArrayList<Integer>> KNearestNeighbours = new HashMap<>();
+    Map<Integer, Map<Integer,Double>> userToMovieBaseline = new HashMap<>();
     Map<Integer, HashMap<Integer, Double>> userToMovieMap = new HashMap<>();
     Map<Integer, HashMap<Integer, Double>> movieToUserMap = new HashMap<>();
 
     public Map<Integer, Map<Integer, Double>> getBaselineEstimate() {
-        return baselineEstimate;
+        return userToMovieBaseline;
     }
 
     public Database() throws IOException, ClassNotFoundException {
@@ -37,11 +35,6 @@ public class Database {
         initAllUsersMeanVote();
         initAllMovieMeanVote();
         initBaseLineEstimates();
-
-
-//        KNearestNeighbours = (HashMap<Integer, ArrayList<Integer>>) Computations.getSerializedItem("objects/NearestNeighbours.ser");
-//        initKNearestNeighbours(300);
-//        Computations.serializeItem(KNearestNeighbours, "objects/NearestNeighbours.ser");
     }
 
     public double initMeanRating(){
@@ -87,26 +80,26 @@ public class Database {
     public void initBaseLineEstimates(){
         for (int i = 0; i < userList.size(); i++) {
             Map<Integer, Double> bucket = new HashMap<>();
-            baselineEstimate.put(userList.get(i).getIndex(), bucket);
+            userToMovieBaseline.put(userList.get(i).getIndex(), bucket);
         }
     }
 
     public double getBaseLine(int user, int movie){
-        if(baselineEstimate.get(user).containsKey(movie)){
-            return baselineEstimate.get(user).get(movie);
+        if(userToMovieBaseline.get(user).containsKey(movie)){
+            return userToMovieBaseline.get(user).get(movie);
         }
         else {
             double bx = usersMean.get(user) - meanRating;
             double bi = movieMean.get(movie) - meanRating;
             double bias = bx + bi + meanRating;
-            baselineEstimate.get(user).put(movie, bias);
+            userToMovieBaseline.get(user).put(movie, bias);
             return bias;
         }
     }
 
 //    public double getBaseLine(int user, int movie){
-//        if(baselineEstimate.get(user).containsKey(movie)){
-//            return baselineEstimate.get(user).get(movie);
+//        if(userToMovieBaseline.get(user).containsKey(movie)){
+//            return userToMovieBaseline.get(user).get(movie);
 //        }
 //        else {
 //            double sumbx = 0;
@@ -123,7 +116,7 @@ public class Database {
 //            }
 //            double bx = sumbx/(10+userToMovieMap.get(user).size());
 //            double bias = bx + bi + meanRating;
-//            baselineEstimate.get(user).put(movie, bias);
+//            userToMovieBaseline.get(user).put(movie, bias);
 //            return bias;
 //        }
 //    }
@@ -140,10 +133,6 @@ public class Database {
 
     public Map<Integer, HashMap<Integer, Double>> getUserToMovieMap() {
         return userToMovieMap;
-    }
-
-    public Map<Integer, ArrayList<Integer>> getKNearestNeighbours() {
-        return KNearestNeighbours;
     }
 
     public Map<Integer, Double> getUsersMean() {
@@ -165,66 +154,5 @@ public class Database {
     public UserList getUserList() {
         return userList;
     }
-    public ArrayList<Integer> getKNearestNeighbours(int user, int k) {
-        Map<Double, Integer> secondUsers = new TreeMap<>();
-        UserList allUserClone = (UserList) userList.clone();
-        User curr = allUserClone.remove(user);
-        for (User second : allUserClone) {
-            HashMap<Integer, Double> currUserMap = userToMovieMap.get(curr.getIndex());
-            HashMap<Integer, Double> secondUserMap = userToMovieMap.get(second.getIndex());
-            Set<Integer> movieIntersection = new HashSet<Integer>(currUserMap.keySet());
-            movieIntersection.retainAll(secondUserMap.keySet());
-            Set<Integer> movieUnion = new HashSet<>(currUserMap.keySet());
-            movieUnion.addAll(secondUserMap.keySet());
-            double correlation = 0.0;
-            if (Math.abs(curr.getAge() - second.getAge()) < 3) {
-                correlation++;
-            }
-            if ((curr.isMale() && second.isMale()) || (!curr.isMale() && !second.isMale())) {
-                correlation++;
-            }
-            if (curr.getProfession() == second.getProfession()) {
-                correlation += 2;
-            }
-            correlation += movieIntersection.size();
-            correlation = correlation / (movieUnion.size() + 3);
-            secondUsers.put(correlation, second.getIndex());
-        }
-        List<Integer> nearestNeighboursList = new ArrayList<>(secondUsers.values());
-        ArrayList<Integer> knearest = new ArrayList<>();
-        if (nearestNeighboursList.size() < k) {
-            k = nearestNeighboursList.size();
-        }
-        for (int i = 0; i < k; i++) {
-            knearest.add(nearestNeighboursList.get(i));
-        }
-        return knearest;
-    }
-
-    public void initKNearestNeighbours(int k) {
-//        int cores = 4;
-//        System.out.println(cores);
-//        ForkJoinPool fork =  new ForkJoinPool(cores);
-//        List<User> parallelList = Collections.synchronizedList(userList);
-//        try {
-//            fork.submit(
-//                    () -> parallelList.parallelStream()
-//                            .forEach(user -> {
-//                                KNearestNeighbours.put(user.getIndex(), getKNearestNeighbours(user.getIndex()-1,k));
-//                            })).get();
-//        }
-//
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-        System.out.println(userList.size());
-        for (User user : userList) {
-            System.out.print("\r" + (double) user.getIndex() * 100 / (double) userList.size() + "%");
-            ArrayList<Integer> list = getKNearestNeighbours(user.getIndex() - 1, k);
-            KNearestNeighbours.put(user.getIndex(), list);
-        }
-        System.out.println("NearestNeighbours Size: " + KNearestNeighbours.size());
-    }
-
 }
 

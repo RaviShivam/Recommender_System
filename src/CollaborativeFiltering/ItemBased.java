@@ -34,7 +34,7 @@ public class ItemBased {
                 }
                 double coeffient = getCorrelationCoefficentPearson(movie, movies.get(i).getIndex());
 
-                if(coeffient>0){
+                if(coeffient>=-0.02){
                     sims.put(coeffient, movies.get(i).getIndex());
                 }
             }
@@ -51,6 +51,7 @@ public class ItemBased {
             upper += entry.getKey() * (moviesRatedByUser.get(entry.getValue())-database.getBaseLine(user,entry.getValue()));
             lower += entry.getKey();
             reached++;
+
         }
         if(database.getUserToMovieMap().get(user).size()==0){
             return database.getMovieMean().get(movie);
@@ -71,7 +72,7 @@ public class ItemBased {
         if(prediction<1.0){
             return 1.0;
         }
-        
+
         return prediction;
     }
 
@@ -82,9 +83,6 @@ public class ItemBased {
         HashMap<Integer,Double> moviesRated2 = (HashMap<Integer, Double>) database.getMovieToUserMap().get(second).clone();
         Set<Integer> userIntersection = new HashSet<Integer>(moviesRated1.keySet());
         userIntersection.retainAll(moviesRated2.keySet());
-        if(moviesRated1.size()==0||moviesRated2.size()==0){
-            return -1;
-        }
         if(userIntersection.isEmpty()){
             return 0.0;
         }
@@ -109,7 +107,20 @@ public class ItemBased {
         }
         return sum/Math.sqrt(asq*bsq);
     }
-
+    
+    public TreeMap<Double, Integer> getSublist(TreeMap<Double, Integer> map){
+        TreeMap<Double, Integer> ret = new TreeMap<>(Collections.reverseOrder());
+        int runs = 1000;
+        int count =0;
+        for (Map.Entry<Double,Integer> entry : map.entrySet()) {
+            ret.put(entry.getKey(),entry.getValue());
+            count++;
+            if(count==runs){
+                break;
+            }
+        }
+        return ret;
+    }
     //================================================================================================
     //================================================================================================
     //================================================================================================
@@ -127,7 +138,11 @@ public class ItemBased {
                 rate.get(movie).values()) {
             sum += d;
         }
-        return Computations.round(sum/(rate.get(movie).size()));
+        int size = rate.get(movie).size();
+        if (size==0){
+            return database.getMovieMean().get(movie);
+        }
+        return sum/(size);
     }
 
 }

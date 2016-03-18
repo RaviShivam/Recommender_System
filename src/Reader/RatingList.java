@@ -54,7 +54,7 @@ public class RatingList extends ArrayList<Rating> {
 			pw = new PrintWriter(filename);
 			pw.println("Id,Rating");
 			for (int i = 0; i < size(); i++) {
-				pw.println((i + 1) + "," + String.format("%.1f", get(i).getRating()));
+				pw.println((i + 1) + "," + String.format("%.6f", get(i).getRating()));
 			}
 			pw.close();
 		} catch (IOException e) {
@@ -107,5 +107,39 @@ public class RatingList extends ArrayList<Rating> {
 		}
 
 		return map;
+	}
+	public void readFileDatabaseExtended(String filename, UserList userList, MovieList movieList) {
+		this.movieList  = movieList;
+		this.userlist = userList;
+		BufferedReader br = null;
+		String line;
+		try {
+			br = new BufferedReader(new FileReader(filename));
+			for (int i = 0; i < 1000000; i++) {
+				line = br.readLine();
+				String[] ratingData = line.split("::");
+				if (ratingData.length == 4) {
+					add(new Rating(
+							userList.get(Integer.parseInt(ratingData[0]) - 1),
+							movieList.get(Integer.parseInt(ratingData[1]) - 1),
+							Double.parseDouble(ratingData[2])));
+				} else {
+					add(new Rating(
+							userList.get(Integer.parseInt(ratingData[0]) - 1),
+							movieList.get(Integer.parseInt(ratingData[1]) - 1),
+							0.0));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }
