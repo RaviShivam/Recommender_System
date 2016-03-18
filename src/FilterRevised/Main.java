@@ -15,8 +15,8 @@ import java.util.concurrent.ForkJoinPool;
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 //        predictHybridRating();
-//        predictItemBased();
-//        predictUserBased();
+        predictItemBased();
+        predictUserBased();
         optimalValue();
 
     }
@@ -27,8 +27,8 @@ public class Main {
         RatingList itembased = new RatingList();
         userbased.readPredictedFile("submissions/userBasedPredictions.csv", database.getUserList(),database.getMovieList());
         itembased.readPredictedFile("submissions/itemBasedPredictions.csv", database.getUserList(),database.getMovieList());
-        double c1 = 0.1;
-        double c2 = 0.9;
+        double c1 = 0.2;
+        double c2 = 0.8;
         for (int i = 0; i < userbased.size(); i++) {
             double avg = (c1*userbased.get(i).getRating()) + (c2 * itembased.get(i).getRating());
             collabList.add(new Rating(userbased.get(i).getUser(), userbased.get(i).getMovie(),avg));

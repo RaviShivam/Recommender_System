@@ -51,7 +51,7 @@ public class Predictor {
                     sims.put(coeffient, currentRow);
                 }
             }
-            similarities.put(row, sims);
+            similarities.put(row, getSublist(sims));
         }
         int reached = 0;
         for (Map.Entry<Double, Integer> entry : sims.entrySet()) {
