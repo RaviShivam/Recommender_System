@@ -20,6 +20,6 @@ public class Predictor_latentFactor {
         utilityMatrix = latentFactorDatabase.getUtility();
         svd = new SingularValueDecomposition(utilityMatrix);
     }
-    
+    //
 }
 
