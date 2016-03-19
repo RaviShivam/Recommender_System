@@ -18,7 +18,7 @@ public class Main {
         startTimer();
 
 //==================================
-//        predictHybridRating();
+        predictHybridRating();
 //        predictItemBased();
 //        predictUserBased();
 //        optimalValue();
@@ -40,7 +40,7 @@ public class Main {
             double avg = (c1*userbased.get(i).getRating()) + (c2 * itembased.get(i).getRating());
             collabList.add(new Rating(userbased.get(i).getUser(), userbased.get(i).getMovie(),avg));
         }
-        collabList.writeResultsFile("submissions/baseline.csv");
+        collabList.writeResultsFile("submissions/hybridPrediction.csv");
     }
 
     static void predictItemBased() throws IOException, ClassNotFoundException {
@@ -156,6 +156,6 @@ public class Main {
         time = System.currentTimeMillis()-time;
         System.out.println();
         System.out.println("===============================");
-        System.out.println("Code runtime: " + time/1000.0);
+        System.out.println("Code runtime= " + (time/1000.0)/60.0 + " minutes");
     }
 }

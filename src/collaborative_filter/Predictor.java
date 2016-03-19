@@ -119,7 +119,7 @@ public class Predictor {
 
     public TreeMap<Double, Integer> getSublist(TreeMap<Double, Integer> map){
         TreeMap<Double, Integer> ret = new TreeMap<>(Collections.reverseOrder());
-        int runs = 1000;
+        int runs = 1500;
         int count =0;
         for (Map.Entry<Double,Integer> entry : map.entrySet()) {
             ret.put(entry.getKey(),entry.getValue());
