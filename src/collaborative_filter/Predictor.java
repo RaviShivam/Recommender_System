@@ -67,10 +67,12 @@ public class Predictor {
         if(rowToCol.get(row).size()==0){
           prediction = colmeans.get(col);
             return Computations.softround(prediction);
+//            return prediction;
         }
         if(utilityMatrix.get(col).size()==0){
             prediction = rowmeans.get(row);
             return Computations.softround(prediction);
+//            return prediction;
         }
         if(lower==0){
             if(itemBased)
@@ -83,6 +85,7 @@ public class Predictor {
             else prediction = database.getBaseLine(row,col) + (upper/lower);
         }
         return Computations.softround(prediction);
+//        return prediction;
     }
 
     public double getCorrelationCoefficentPearson(int firstrow, int secondrow){
@@ -119,7 +122,7 @@ public class Predictor {
 
     public TreeMap<Double, Integer> getSublist(TreeMap<Double, Integer> map){
         TreeMap<Double, Integer> ret = new TreeMap<>(Collections.reverseOrder());
-        int runs = 1500;
+        int runs = 1000;
         int count =0;
         for (Map.Entry<Double,Integer> entry : map.entrySet()) {
             ret.put(entry.getKey(),entry.getValue());

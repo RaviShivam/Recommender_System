@@ -137,7 +137,7 @@ public class Main {
                                 double predictionitem = itemBased.predictRating(rating.getUser().getIndex(), rating.getMovie().getIndex());
                                 double predictionuser = userBased.predictRating(rating.getMovie().getIndex(), rating.getUser().getIndex());
                                 double prediction = ((0.8+0.043)*predictionitem) + ((0.2-0.043)*predictionuser);
-                                rating.setRating(prediction);
+                                rating.setRating(Computations.softround(prediction));
                             })).get();
             finalList.addAll(parallelList);
         }
@@ -145,7 +145,7 @@ public class Main {
         catch (Exception e){
             e.printStackTrace();
         }
-        finalList.writeResultsFile("submissions/hybridPrediction.csv");
+        finalList.writeResultsFile("submissions/softRounded.csv");
         System.out.println("Hybrid prediction completed succesfully.");
         //=======================================================
     }

@@ -46,42 +46,6 @@ public class RatingList extends ArrayList<Rating> {
 			}
 		}
 	}
-	public void readPredictedFile(String filename, UserList userList, MovieList movieList) {
-		this.movieList  = movieList;
-		this.userlist = userList;
-
-		BufferedReader br = null;
-		String line;
-		try {
-			br = new BufferedReader(new FileReader(filename));
-			br.readLine();
-			while ((line = br.readLine()) != null) {
-				String[] ratingData = line.split(",");
-				if (ratingData.length == 2) {
-					add(new Rating(
-							null,
-							null,
-							Double.parseDouble(ratingData[1])));
-				} else {
-					add(new Rating(
-							null,
-							null,
-							0.0));
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
 	// Writes a result file
 	public void writeResultsFile(String filename) {
 		PrintWriter pw;
@@ -143,6 +107,30 @@ public class RatingList extends ArrayList<Rating> {
 
 		return map;
 	}
+
+	/**
+	 * Convertes ArrayList of ratings to 2D HashMap so that
+	 * outer map key equals to userId and
+	 * inner map key equals to movieId
+	 * @return rating as hashmap
+	 */
+	public HashMap<Integer, HashMap<Integer, Double>> getUserToMovieSublist(int lower, int high){
+		HashMap<Integer, HashMap<Integer, Double>> map = new HashMap<Integer, HashMap<Integer, Double>>();
+		for (int i = 0; i < userlist.size(); i++) {
+			map.put(userlist.get(i).getIndex(), new HashMap<>());
+		}
+		HashMap<Integer, Double> bucket;
+		Integer userId;
+
+		for(Rating r: this.subList(lower, high)){
+			userId = r.getUser().getIndex();
+			bucket = map.get(userId);
+			bucket.put(r.getMovie().getIndex(), r.getRating());
+			map.put(userId, bucket);
+		}
+
+		return map;
+	}
 	public void readFileDatabaseExtended(String filename, UserList userList, MovieList movieList) {
 		this.movieList  = movieList;
 		this.userlist = userList;
@@ -177,4 +165,40 @@ public class RatingList extends ArrayList<Rating> {
 			}
 		}
 	}
+	public void readPredictedFile(String filename, UserList userList, MovieList movieList) {
+		this.movieList  = movieList;
+		this.userlist = userList;
+
+		BufferedReader br = null;
+		String line;
+		try {
+			br = new BufferedReader(new FileReader(filename));
+			br.readLine();
+			while ((line = br.readLine()) != null) {
+				String[] ratingData = line.split(",");
+				if (ratingData.length == 2) {
+					add(new Rating(
+							null,
+							null,
+							Double.parseDouble(ratingData[1])));
+				} else {
+					add(new Rating(
+							null,
+							null,
+							0.0));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 }

@@ -48,6 +48,9 @@ public class Computations {
         if(prediction<1.0){
             return 1.0;
         }
+        if(prediction>2.999 && prediction<3.001){
+            return 3.0;
+        }
         else return prediction;
     }
     public static  void main(String[] args) throws IOException, ParseException {
