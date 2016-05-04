@@ -7,29 +7,34 @@ import java.util.stream.IntStream;
 
 public class FeatureVector extends ArrayList<Double> {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
 	 * Label of the feature.
 	 */
-	List<Double> label;
-
+//	List<Double> label;
+	double label;
 	/**
 	 * Constructor
 	 * @param l The label of this feature vector.
 	 */
-	public FeatureVector(List<Double> l) {
-		label = l;
-	}
+//	public FeatureVector(List<Double> l) {
+//	label=l;
+//}
+		public FeatureVector(double l) {
+			label = l;
+		}
 
 	/**
 	 * @return Returns the label.
 	 */
-	public List<Double> getLabel() {
+//	public List<Double> getLabel() {
+//		return label;
+//	}
+	public double getLabel() {
 		return label;
 	}
-
 	/**
 	 * Calculates the product of this feature vector with vector weights.
 	 * @param weights The vector with which the product is calculated.

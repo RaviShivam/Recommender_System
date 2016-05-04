@@ -1,7 +1,12 @@
 package multi_layer_perceptron;
 
 import Reader.*;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,79 +35,54 @@ public class Input {
         }
     }
 
-    public static List<FeatureVector> getTrainingData(){
-        List<FeatureVector> featureVectorList = new ArrayList<>();
-        RatingList ratingList = new RatingList();
-        ratingList.readFile("data/ratings.csv",userlist,movieslist);
-        double f = 0;
-        double s = 0;
-        double t = 0;
-        double fo = 0;
-        double fi = 0;
-        for (int i = 0; i < ratingList.size(); i++) {
-            User user = ratingList.get(i).getUser();
-            Movie movie = ratingList.get(i).getMovie();
-            List<Double> outputList = new ArrayList<>();
-            double rating = ratingList.get(i).getRating();
-            for (int j = 1; j < 6; j++) {
-                if(rating == j){
-                    outputList.add(1.0);
+    public static List<FeatureVector> getTrainingData() throws IOException {
+        List<FeatureVector> trainingdata = new ArrayList<>();
+    BufferedReader br = null;
+    String line;
+        br = new BufferedReader(new FileReader("data/perceptrontrain.csv"));
+        br.readLine();
+        while ((line = br.readLine()) != null) {
+            String[] ratingData = line.split(";");
+            List<Double> actualrating = new ArrayList<>();
+            int rat = (int) Double.parseDouble(ratingData[ratingData.length-1]);
+            for (int i = 0; i < 5; i++) {
+                if(rat==i+1){
+                    actualrating.add(1.0);
                 }
-                else{
-                    outputList.add(0.0);
-                }
+                else actualrating.add(0.0);
             }
-            FeatureVector vector = new FeatureVector(outputList);
-
-
-
-            vector.add(((double) movie.getIndex()+1250)/(movieslist.size()*10));
-            s += ((double) movie.getIndex()+1250)/(movieslist.size()*10);
-
-            vector.add(((double) user.getAge()+51)/100.0);
-            t += ((double) user.getAge()+51)/100.0;
-
-//            vector.add(1 - ((double)movie.getYear()-7)/2016.0);
-//            f += (1 - ((double)movie.getYear()-7)/2016.0);
-
-            vector.add((double)user.getProfession()/100.0);
-            fo += (double)user.getProfession()/100.0;
-
-            if(user.isMale()){
-                vector.add(1.1);
-                fi += 1.1;
+//            FeatureVector vector = new FeatureVector(actualrating);
+            FeatureVector vector = new FeatureVector(2.0);
+            for (int i = 0; i < ratingData.length-1; i++) {
+                vector.add(Double.parseDouble(ratingData[i]));
             }
-            else vector.add(0.0);
-
-//            vector.add((double) movie.getTitle().hashCode()/(Math.pow(10,10)));
-            featureVectorList.add(vector);
+            for (int i = 0; i < ratingData.length-1; i++) {
+                vector.add(Double.parseDouble(ratingData[i]));
+            }
+            trainingdata.add(vector);
         }
-        System.out.println(f + "    " + s + "    " + t + "    "+fo + "    " + fi);
-        return featureVectorList;
+        br.close();
+        return trainingdata;
     }
-    public static List<FeatureVector> getPredictionData(RatingList predictions) {
-        List<FeatureVector> featureVectorList = new ArrayList<>();
-        for (int i = 0; i < predictions.size(); i++) {
-            User user = predictions.get(i).getUser();
-            Movie movie = predictions.get(i).getMovie();
-
-            FeatureVector vector = new FeatureVector(null);
-            vector.add(((double) movie.getIndex()+1250)/(movieslist.size()*10));
-
-            vector.add(((double) user.getAge()+51)/100.0);
-
-//            vector.add(1 - ((double)movie.getYear()-7)/2016.0);
-
-            vector.add((double)user.getProfession()/100.0);
-
-            if(user.isMale()){
-                vector.add(1.1);
-            }
-            else vector.add(0.0);
-
-            featureVectorList.add(vector);
+    public static List<FeatureVector> getPredictionData() {
+        RatingList userbased = new RatingList();
+        RatingList itembased = new RatingList();
+        RatingList latenFactorModel = new RatingList();
+        userbased.readPredictedFile("submissions/userBasedPredictions.csv", userlist,movieslist);
+        itembased.readPredictedFile("submissions/itemBasedPredictions.csv", userlist,movieslist);
+        latenFactorModel.readPredictedFile("submissions/latentFactorPredictionsSecond.csv", userlist, movieslist);
+        List<FeatureVector> predictionData = new ArrayList<>();
+        for (int i = 0; i < userbased.size(); i++) {
+            FeatureVector vector = new FeatureVector(0);
+            vector.add(itembased.get(i).getRating());
+            vector.add(userbased.get(i).getRating());
+            vector.add(latenFactorModel.get(i).getRating());
+            vector.add(itembased.get(i).getRating());
+            vector.add(userbased.get(i).getRating());
+            vector.add(latenFactorModel.get(i).getRating());
+            predictionData.add(vector);
         }
-        return featureVectorList;
+        return predictionData;
     }
 
     public static MovieList getMovieslist() {

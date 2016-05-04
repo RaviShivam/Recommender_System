@@ -35,9 +35,9 @@ public class Computations {
         double absD = (int) d;
         double rest = Math.abs(absD-d);
         if(rest<0.5) {
-            return rest <= 0.01 ? absD : d;
+            return rest <= 0.1 ? absD : d;
         }
-        return rest >= 0.01 ? (absD+1) : d;
+        return rest >= 0.1 ? (absD+1) : d;
 
     }
 
@@ -47,9 +47,6 @@ public class Computations {
         }
         if(prediction<1.0){
             return 1.0;
-        }
-        if(prediction>2.999 && prediction<3.001){
-            return 3.0;
         }
         else return prediction;
     }

@@ -163,9 +163,6 @@ public class DataBaseExtender {
         DataBaseExtender extender = new DataBaseExtender();
         extender.undef();
     }
-
-
-
     public static String createURL(String name){
         StringBuilder builder = new StringBuilder();
         builder.append("http://www.omdbapi.com/?t=");

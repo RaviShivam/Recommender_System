@@ -18,6 +18,7 @@ public class Database {
     Map<Integer, Double> usersMean = new HashMap<>();
     Map<Integer, Double> movieMean = new HashMap<>();
     Map<Integer, Map<Integer,Double>> userToMovieBaseline = new HashMap<>();
+
     Map<Integer, HashMap<Integer, Double>> userToMovieMap = new HashMap<>();
     Map<Integer, HashMap<Integer, Double>> movieToUserMap = new HashMap<>();
 
@@ -32,6 +33,8 @@ public class Database {
         meanRating = initMeanRating();
         userToMovieMap = ratingList.getUserToMovieHashMap();
         movieToUserMap = ratingList.getMovieToUserHashMap();
+//        userToMovieMap = ratingList.getUserToMovieSublist(0,500000);
+//        movieToUserMap = ratingList.getMovieToUserSubList(0,500000);
         initAllUsersMeanVote();
         initAllMovieMeanVote();
         initBaseLineEstimates();
@@ -154,5 +157,13 @@ public class Database {
     public UserList getUserList() {
         return userList;
     }
+    public void setUserToMovieMap(Map<Integer, HashMap<Integer, Double>> userToMovieMap) {
+        this.userToMovieMap = userToMovieMap;
+    }
+
+    public void setMovieToUserMap(Map<Integer, HashMap<Integer, Double>> movieToUserMap) {
+        this.movieToUserMap = movieToUserMap;
+    }
+
 }
 

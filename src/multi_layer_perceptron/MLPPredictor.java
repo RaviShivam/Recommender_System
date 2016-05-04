@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class MLPPredictor {
     int layers, inputs, output;
-    double learningRate = 0.4;
+    double learningRate = 0.002;
     List<Integer> hidden;
     List<Map<Integer, List<Double>>> weights;
 
@@ -26,7 +26,7 @@ public class MLPPredictor {
      * @return
      */
     public void train(FeatureVector feature) {
-        FeatureVector aHiddenOutput = new FeatureVector(null);
+        FeatureVector aHiddenOutput = new FeatureVector(0);
         List<Map<Integer, List<Double>>> clonedWeights = new ArrayList<>(weights);
         FeatureVector fv = (FeatureVector) feature.clone();
         fv.add(-1.0);
@@ -50,7 +50,7 @@ public class MLPPredictor {
         List<Double> outputerrorgradients = new ArrayList<>();
         //update output layer weights.
         for (int j = 0; j < outputs.size(); j++) {
-            double error = fv.getLabel().get(j) - outputs.get(j);
+            double error = fv.getLabel() - outputs.get(j);
             double errorgradient = outputs.get(j) * (1 - outputs.get(j)) * error;
             outputerrorgradients.add(errorgradient);
             for (int i = 0; i < aHiddenOutput.size(); i++) {
@@ -83,7 +83,7 @@ public class MLPPredictor {
     }
 
     public double predict(FeatureVector featureVector) {
-        FeatureVector aHiddenOutput = new FeatureVector(null);
+        FeatureVector aHiddenOutput = new FeatureVector(0);
         FeatureVector fv = (FeatureVector) featureVector.clone();
         fv.add(-1.0);
         Map<Integer, List<Double>> map = weights.get(0);
